@@ -1,0 +1,10 @@
+._*
+*DS_Store
+*pyc
+*.swo
+*.swp
+.session-lock
+.idea/
+cfg.yml
+controller.ini
+node_modules
