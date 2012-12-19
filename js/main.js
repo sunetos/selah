@@ -21,16 +21,33 @@ function tick(dt, paused) {
   }
 }
 
-function playNote(x, y) {
-  if (Random.chance(8)) {
-    //console.log(x, y);
-  }
+function playNote(note) {
+  var adsr = T('adsr', 150);
+  var synth = T('*', adsr, T('tri', note));
+
+  var timer = T('timeout', 150, function() {
+    synth.pause().off();
+  });
+  adsr.onD = function() { this.table = '~32db'; };
+  synth.onplay = function() {
+    adsr.bang();
+    timer.on();
+  };
+  synth.play();
+}
+
+var semitone = Math.pow(2, 1/12);
+function wallTouch(x, y) {
+  x = (12*x) | 0; y = (6*y | 0) - 2;
+  var steps = y*12 + x;
+  var freq = 440*Math.pow(semitone, steps);
+  playNote(freq);
 }
 
 $(function() {
   $('#debug').on('click', function() { $('#debug-canvas').toggle(); });
 
-  Msg.sub('wall-touch', playNote);
+  Msg.sub('wall-touch', wallTouch);
 
   canvas = document.getElementById('demo-canvas');
   debugCanvas = document.getElementById('debug-canvas');
@@ -38,7 +55,7 @@ $(function() {
   debugContext = debugCanvas.getContext('2d');
   window.stage = new createjs.Stage(canvas);
   window.stage.snapPixelsEnabled = true;
-  createBgGrid(window.stage, 8, 8);
+  createBgGrid(window.stage, 12, 6);
 
   world = new BirdWorld(false, debugContext);
 

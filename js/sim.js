@@ -317,7 +317,7 @@ var BirdWorld = (function (_super) {
         };
     };
     BirdWorld.prototype.tick = function () {
-        if(this.bodies.length > 10) {
+        if(this.bodies.length > 4) {
             this.bodiesToRemove.push(this.bodies[0]);
             this.bodies.splice(0, 1);
         }
