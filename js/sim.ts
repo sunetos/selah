@@ -182,10 +182,10 @@ class BirdWorld extends World {
     var fixCfg = {density: 1, friction: 0, restitution: 1};
     var bodyCfg = {userData: 'wall'};
     var w = 500, h = 500;
-    var floor = this.makeBody('static', w, 10, 0, h, fixCfg, bodyCfg);
-    var ceil = this.makeBody('static', w, 10, 0, 0, fixCfg, bodyCfg);
+    var floor = this.makeBody('static', w, 10, 0, h + 10, fixCfg, bodyCfg);
+    var ceil = this.makeBody('static', w, 10, 0, -10, fixCfg, bodyCfg);
     var left = this.makeBody('static', 10, h, -10, 0, fixCfg, bodyCfg);
-    var right = this.makeBody('static', 10, h, w, 0, fixCfg, bodyCfg);
+    var right = this.makeBody('static', 10, h, w + 10, 0, fixCfg, bodyCfg);
   }
 
   makeBird(stage) {
@@ -259,4 +259,39 @@ class Actor {
   }
 
   onUpdate() { }
+}
+
+function createBgGrid(stage, numX, numY) {
+  var grid = new createjs.Container();
+  grid.snapToPixel = true;
+
+  var w = stage.canvas.width, h = stage.canvas.height;
+  var gw = w/numX, gh = h/numY;
+  // drawing the vertical line
+  var verticalLine = new createjs.Graphics();
+  verticalLine.beginFill(createjs.Graphics.getRGB(100, 100, 100));
+  verticalLine.drawRect(0, 0, gw*0.02, gh*(numY + 2));
+  var vs;
+  for (var c = -1; c < numX + 1; ++c) {
+    vs = new createjs.Shape(verticalLine);
+    vs.snapToPixel = true;
+    vs.x = c*gw;
+    vs.y = -gh;
+    grid.addChild(vs);
+  }
+  // drawing a horizontal line
+  var horizontalLine = new createjs.Graphics();
+  horizontalLine.beginFill(createjs.Graphics.getRGB(100, 100, 100));
+  horizontalLine.drawRect(0, 0, gw*(numX + 1), gh*0.02);
+  var hs;
+  for (c = -1; c < numY + 1; ++c) {
+    hs = new createjs.Shape(horizontalLine);
+    hs.snapToPixel = true;
+    hs.x = 0;
+    hs.y = c*gh;
+    grid.addChild(hs);
+  }
+
+  stage.addChild(grid);
+  return grid;
 }

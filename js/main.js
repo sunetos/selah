@@ -38,6 +38,7 @@ $(function() {
   debugContext = debugCanvas.getContext('2d');
   window.stage = new createjs.Stage(canvas);
   window.stage.snapPixelsEnabled = true;
+  createBgGrid(window.stage, 8, 8);
 
   world = new BirdWorld(false, debugContext);
 
