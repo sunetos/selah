@@ -15,14 +15,22 @@ function tick(dt, paused) {
   stage.update();
 
   birdDelayCounter++;
-  if (birdDelayCounter % 10 === 0) {  // delay so it doesn't spawn a bird on every frame
+  if (birdDelayCounter % 30 === 0) {  // delay so it doesn't spawn a bird on every frame
     birdDelayCounter = 0;
     world.makeBird(stage);
   }
 }
 
+function playNote(x, y) {
+  if (Random.chance(8)) {
+    //console.log(x, y);
+  }
+}
+
 $(function() {
   $('#debug').on('click', function() { $('#debug-canvas').toggle(); });
+
+  Msg.sub('wall-touch', playNote);
 
   canvas = document.getElementById('demo-canvas');
   debugCanvas = document.getElementById('debug-canvas');
@@ -31,7 +39,7 @@ $(function() {
   window.stage = new createjs.Stage(canvas);
   window.stage.snapPixelsEnabled = true;
 
-  world = new BirdWorld(null, debugContext);
+  world = new BirdWorld(false, debugContext);
 
   visibly.visibilitychange(function(state) {
     world.toggle(state === 'visible');

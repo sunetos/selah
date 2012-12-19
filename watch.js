@@ -52,7 +52,7 @@ process.argv.slice(2).forEach(function(src) {
           fname = path.basename(fpath, ext);
       var out = dst || path.join(dir, fname + (extMap[ext] || '.null'));
       if (fpath.endsWith('.ts')) {
-        build('tsc --target ES5 ' + src + ' --out ' + out, src, out);
+        build('tsc --sourcemap --target ES5 ' + src + ' --out ' + out, src, out);
       } else if (fpath.endsWith('.less')) {
         build('lessc ' + src + ' > ' + out, src, out);
       }

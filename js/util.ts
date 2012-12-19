@@ -1,5 +1,7 @@
-/// <reference path="libs/defs/jquery-1.8.d.ts" />
-/// <reference path="libs/defs/tween.js-r7.d.ts" />
+/// <reference path="defs/dt/jquery-1.8.d.ts" />
+
+var RAD2DEG = 180.0/Math.PI;
+var DEG2RAD = Math.PI/180.0;
 
 /** Simple lightweight pubsub. */
 module Msg {
@@ -52,6 +54,12 @@ module Random {
   }
   export function chance(outOf:number=1):bool {
     return (int(1, outOf) === 1);
+  }
+  export function degree():number {
+    return int(0, 359);
+  }
+  export function radian():number {
+    return scale(6.283185307179586);  // Math.PI*2
   }
 }
 

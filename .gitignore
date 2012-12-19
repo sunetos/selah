@@ -3,6 +3,7 @@
 *pyc
 *.swo
 *.swp
+*.js.map
 .session-lock
 .idea/
 cfg.yml
